@@ -146,3 +146,64 @@ bool prosesPesananSekali() {
     hitungTotalDanTampil(true);
     return true;
 }
+// =============================
+//            MAIN
+// =============================
+
+int main() {
+    const string USER = "Pelanggan";
+    const string PASS = "Xpress";
+
+    string inputUser, inputPass;
+
+    // HEADER
+    tampilkanHeader();
+
+    // LOGIN (DIPINDAHKAN KE PALING AWAL)
+    cout << "\nSilakan login untuk mengakses sistem.\n";
+    cout << "Username: ";
+    cin >> inputUser;
+    cout << "Password: ";
+    cin >> inputPass;
+
+    if (inputUser != USER || inputPass != PASS) {
+        cout << "\nLogin gagal! Username atau password salah.\n";
+        cout << "Akses ditutup.\n";
+        return 0;
+    }
+
+    cout << "\nLogin berhasil. Selamat datang, " << USER << "!\n";
+
+    // MULAI PROSES PEMESANAN
+    char ulang;
+
+    do {
+        bool ok = prosesPesananSekali();
+        if (!ok) {
+            cout << "Program dihentikan karena input tidak valid.\n";
+            return 0;
+        }
+
+        cout << "\nApakah ingin menambah pesanan lagi? (y/n): ";
+        cin >> ulang;
+
+    } while (ulang == 'y' || ulang == 'Y');
+
+    // CEK APAPUN ADA PESANAN
+    bool adaPesanan = false;
+    for (int i = 0; i < JUMLAH_MENU; i++)
+        if (jumlahPesanan[i] > 0) adaPesanan = true;
+
+    if (!adaPesanan) {
+        cout << "\nTidak ada pesanan. Terima kasih telah menggunakan DineXpress.\n";
+        return 0;
+    }
+
+    // RINGKASAN AKHIR + STRUK
+    cout << "\n========== RINGKASAN PESANAN ==========\n";
+    hitungTotalDanTampil(true);
+
+    cetakStruk();
+
+    return 0;
+}
