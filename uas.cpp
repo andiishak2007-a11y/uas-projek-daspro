@@ -81,3 +81,68 @@ int hitungTotalDanTampil(bool tampilkanRincian = true) {
 
     return total;
 }
+
+// Cetak struk akhir
+void cetakStruk() {
+    int totalSebelum = 0;
+
+    cout << "\n\n=======================================\n";
+    cout << "              STRUK PESANAN\n";
+    cout << "         DineXpress Restaurant\n";
+    cout << "=======================================\n";
+    cout << "Item\t\tQty\tHarga\tSubtotal\n";
+    cout << "---------------------------------------\n";
+
+    for (int i = 0; i < JUMLAH_MENU; i++) {
+        if (jumlahPesanan[i] > 0) {
+            int subtotal = jumlahPesanan[i] * hargaMenu[i];
+            cout << namaMenu[i] << "\t" << jumlahPesanan[i] << "x\tRp " 
+                 << hargaMenu[i] << "\tRp " << subtotal << endl;
+
+            totalSebelum += subtotal;
+        }
+    }
+
+    cout << "---------------------------------------\n";
+    cout << "Total Sebelum Diskon : Rp " << totalSebelum << endl;
+
+    if (totalSebelum > 100000) {
+        int diskon = totalSebelum * 10 / 100;
+        cout << "Diskon 10%           : -Rp " << diskon << endl;
+        cout << "Total Akhir          : Rp " << totalSebelum - diskon << endl;
+    } else {
+        cout << "Diskon               : -\n";
+        cout << "Total Akhir          : Rp " << totalSebelum << endl;
+    }
+
+    cout << "---------------------------------------\n";
+    cout << "Terima kasih telah memesan di DineXpress!\n";
+    cout << "=======================================\n\n";
+}
+
+// Proses pesanan satu kali input menu
+bool prosesPesananSekali() {
+    int pilihan, jumlah;
+
+    tampilkanMenu();
+    cout << "Pilih nomor menu (1-" << JUMLAH_MENU << "): ";
+    cin >> pilihan;
+
+    if (pilihan < 1 || pilihan > JUMLAH_MENU) {
+        cout << "\nNomor menu tidak valid! Program dihentikan.\n";
+        return false;
+    }
+
+    cout << "Masukkan jumlah pesanan untuk " << namaMenu[pilihan - 1] << ": ";
+    cin >> jumlah;
+
+    if (jumlah < 1) {
+        cout << "Jumlah tidak boleh kurang dari 1! Program dihentikan.\n";
+        return false;
+    }
+
+    jumlahPesanan[pilihan - 1] += jumlah;
+
+    hitungTotalDanTampil(true);
+    return true;
+}
